@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+
+    <section id="form-section">
+      <h1>Créer un compte</h1>
+      <p class="subtitle">Tous les champs sont requis.</p>
+
+      <form id="signup-form" novalidate>
+        <div class="field">
+          <label for="login">Login</label>
+          <input type="text" id="login" name="login" autocomplete="username" required>
+          <span class="field-error" id="error-login"></span>
+        </div>
+
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" autocomplete="new-password" required>
+          <span class="field-error" id="error-password"></span>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirmation du mot de passe</label>
+          <input type="password" id="confirm" name="confirm" autocomplete="new-password" required>
+          <span class="field-error" id="error-confirm"></span>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="lastname">Nom</label>
+            <input type="text" id="lastname" name="lastname" autocomplete="family-name" required>
+            <span class="field-error" id="error-lastname"></span>
+          </div>
+
+          <div class="field">
+            <label for="firstname">Prénom</label>
+            <input type="text" id="firstname" name="firstname" autocomplete="given-name" required>
+            <span class="field-error" id="error-firstname"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="address">Adresse</label>
+          <input type="text" id="address" name="address" autocomplete="street-address" required>
+          <span class="field-error" id="error-address"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+          <span class="field-error" id="error-email"></span>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="phone">Téléphone</label>
+            <input type="text" id="phone" name="phone" autocomplete="tel" required>
+            <span class="field-error" id="error-phone"></span>
+          </div>
+
+          <div class="field">
+            <label for="birthdate">Date de naissance</label>
+            <input type="date" id="birthdate" name="birthdate" required>
+            <span class="field-error" id="error-birthdate"></span>
+          </div>
+        </div>
+
+        <div id="global-error" class="global-error" role="alert" hidden></div>
+
+        <button type="submit" class="btn">S'inscrire</button>
+      </form>
+    </section>
+
+    <section id="summary-section" hidden>
+      <h1>Inscription confirmée</h1>
+      <p class="subtitle">Récapitulatif des informations saisies.</p>
+
+      <dl class="summary">
+        <div class="summary-row"><dt>Login</dt><dd id="sum-login"></dd></div>
+        <div class="summary-row"><dt>Nom</dt><dd id="sum-lastname"></dd></div>
+        <div class="summary-row"><dt>Prénom</dt><dd id="sum-firstname"></dd></div>
+        <div class="summary-row"><dt>Adresse</dt><dd id="sum-address"></dd></div>
+        <div class="summary-row"><dt>Email</dt><dd id="sum-email"></dd></div>
+        <div class="summary-row"><dt>Téléphone</dt><dd id="sum-phone"></dd></div>
+        <div class="summary-row"><dt>Date de naissance</dt><dd id="sum-birthdate"></dd></div>
+      </dl>
+
+      <button type="button" class="btn btn-secondary" id="back-btn">Modifier mes informations</button>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
