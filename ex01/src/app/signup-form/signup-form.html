@@ -1,0 +1,185 @@
+<div class="window" role="dialog" aria-labelledby="win-title">
+  <div class="title-bar">
+    <i class="pixelart-icons-font-user-plus icon" aria-hidden="true"></i>
+    <span id="win-title" class="title-text">INSCRIPT.EXE — Nouvel utilisateur</span>
+    <span class="title-buttons" aria-hidden="true">
+      <span class="tb-btn"><i class="pixelart-icons-font-minus icon" aria-hidden="true"></i></span><span class="tb-btn"><i class="pixelart-icons-font-square icon" aria-hidden="true"></i></span><span class="tb-btn"><i class="pixelart-icons-font-close icon" aria-hidden="true"></i></span>
+    </span>
+  </div>
+
+  <div class="menu-bar" aria-hidden="true">
+    <span><u>F</u>ichier</span><span><u>É</u>dition</span><span><u>A</u>ide</span>
+  </div>
+
+  <form
+    #signupForm="ngForm"
+    appPasswordMatch
+    (ngSubmit)="onSubmit(signupForm)"
+    novalidate
+    class="body"
+  >
+    <fieldset class="group">
+      <legend><i class="pixelart-icons-font-login icon" aria-hidden="true"></i> Identifiants</legend>
+
+      <div class="row">
+        <label for="login"><u>L</u>ogin :</label>
+        <input
+          id="login"
+          name="login"
+          type="text"
+          [(ngModel)]="model.login"
+          #login="ngModel"
+          required
+          autocomplete="username"
+          accesskey="l"
+        />
+      </div>
+      @if (login.invalid && login.touched) {
+        <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le login est requis.</p>
+      }
+
+      <div class="row">
+        <label for="password"><u>M</u>ot de passe :</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          [(ngModel)]="model.password"
+          #password="ngModel"
+          required
+          autocomplete="new-password"
+          accesskey="m"
+        />
+      </div>
+      @if (password.invalid && password.touched) {
+        <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le mot de passe est requis.</p>
+      }
+
+      <div class="row">
+        <label for="confirmPassword"><u>C</u>onfirmation :</label>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          [(ngModel)]="model.confirmPassword"
+          #confirmPassword="ngModel"
+          required
+          autocomplete="new-password"
+          accesskey="c"
+        />
+      </div>
+      @if (confirmPassword.touched) {
+        @if (confirmPassword.hasError('required')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> La confirmation est requise.</p>
+        } @else if (signupForm.hasError('passwordMismatch')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Les mots de passe ne correspondent pas.</p>
+        }
+      }
+    </fieldset>
+
+    <fieldset class="group">
+      <legend><i class="pixelart-icons-font-contact icon" aria-hidden="true"></i> Identité</legend>
+
+      <div class="row">
+        <label for="lastName"><u>N</u>om :</label>
+        <input
+          id="lastName"
+          name="lastName"
+          type="text"
+          [(ngModel)]="model.lastName"
+          #lastName="ngModel"
+          required
+          autocomplete="family-name"
+          accesskey="n"
+        />
+      </div>
+      @if (lastName.invalid && lastName.touched) {
+        <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le nom est requis.</p>
+      }
+
+      <div class="row">
+        <label for="firstName"><u>P</u>rénom :</label>
+        <input
+          id="firstName"
+          name="firstName"
+          type="text"
+          [(ngModel)]="model.firstName"
+          #firstName="ngModel"
+          required
+          autocomplete="given-name"
+          accesskey="p"
+        />
+      </div>
+      @if (firstName.invalid && firstName.touched) {
+        <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le prénom est requis.</p>
+      }
+
+      <div class="row">
+        <label for="email"><u>E</u>mail :</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          [(ngModel)]="model.email"
+          #email="ngModel"
+          required
+          email
+          autocomplete="email"
+          accesskey="e"
+        />
+      </div>
+      @if (email.touched) {
+        @if (email.hasError('required')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> L'email est requis.</p>
+        } @else if (email.hasError('email')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Format d'email invalide.</p>
+        }
+      }
+    </fieldset>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-default" [disabled]="signupForm.invalid">
+        <span class="btn-inner">OK</span>
+      </button>
+      <button type="button" class="btn" (click)="reset(signupForm)">
+        <span class="btn-inner">Annuler</span>
+      </button>
+    </div>
+  </form>
+
+  <div class="status-bar">
+    <span class="status-cell grow">
+      @if (signupForm.invalid) {
+        <i class="pixelart-icons-font-lock icon" aria-hidden="true"></i> Envoi verrouillé — complétez le formulaire
+      } @else {
+        <i class="pixelart-icons-font-check icon" aria-hidden="true"></i> Prêt.
+      }
+    </span>
+    <span class="status-cell">{{ signupForm.valid ? 'VALIDE' : 'INVALIDE' }}</span>
+  </div>
+</div>
+
+@if (submitted(); as user) {
+  <div class="window msgbox" role="alertdialog" aria-labelledby="msg-title">
+    <div class="title-bar">
+      <span id="msg-title" class="title-text">Inscription</span>
+    </div>
+    <div class="msg-body">
+      <i class="pixelart-icons-font-info-box icon msg-icon" aria-hidden="true"></i>
+      <div>
+        <p>Compte créé avec succès !</p>
+        <pre>
+LOGIN  : {{ user.login }}
+NOM    : {{ user.lastName }}
+PRENOM : {{ user.firstName }}
+EMAIL  : {{ user.email }}</pre
+        >
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn btn-default" (click)="reset(signupForm)">
+        <span class="btn-inner">OK</span>
+      </button>
+    </div>
+  </div>
+}
