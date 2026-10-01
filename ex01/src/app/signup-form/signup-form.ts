@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { DraggableDirective } from './draggable.directive';
 import { PasswordMatchDirective } from './password-match.directive';
 
 export interface SignupModel {
@@ -13,7 +14,7 @@ export interface SignupModel {
 
 @Component({
   selector: 'app-signup-form',
-  imports: [FormsModule, PasswordMatchDirective],
+  imports: [FormsModule, PasswordMatchDirective, DraggableDirective],
   templateUrl: './signup-form.html',
   styleUrl: './signup-form.css',
 })

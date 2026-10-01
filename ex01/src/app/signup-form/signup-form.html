@@ -1,4 +1,4 @@
-<div class="window" role="dialog" aria-labelledby="win-title">
+<div class="window" appDraggable role="dialog" aria-labelledby="win-title">
   <div class="title-bar">
     <i class="pixelart-icons-font-user-plus icon" aria-hidden="true"></i>
     <span id="win-title" class="title-text">INSCRIPT.EXE — Nouvel utilisateur</span>
@@ -160,7 +160,7 @@
 </div>
 
 @if (submitted(); as user) {
-  <div class="window msgbox" role="alertdialog" aria-labelledby="msg-title">
+  <div class="window msgbox" appDraggable role="alertdialog" aria-labelledby="msg-title">
     <div class="title-bar">
       <span id="msg-title" class="title-text">Inscription</span>
     </div>

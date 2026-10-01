@@ -49,6 +49,24 @@
   font-weight: bold;
   letter-spacing: 0.5px;
 }
+.title-bar {
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+.window.dragging {
+  /* fenêtre « soulevée » pendant le déplacement */
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--face),
+    inset -2px -2px var(--mid),
+    inset 2px 2px var(--light),
+    10px 10px 0 rgba(0, 0, 0, 0.45);
+  z-index: 10;
+}
+.window {
+  position: relative;
+}
 .title-text {
   flex: 1;
   overflow: hidden;
