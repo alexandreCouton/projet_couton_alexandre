@@ -1,0 +1,257 @@
+:host {
+  --face: #c0c0c0;
+  --light: #ffffff;
+  --mid: #808080;
+  --dark: #000000;
+  --title-a: #000080;
+  --title-b: #1084d0;
+  --error: #a00000;
+
+  display: grid;
+  place-items: center;
+  gap: 24px;
+  padding: 16px;
+}
+
+/* ---------- Icônes (pixelarticons) ---------- */
+.icon {
+  font-size: 16px !important;
+  line-height: 1;
+  vertical-align: -2px;
+}
+.tb-btn .icon {
+  font-size: 12px !important;
+}
+.title-bar > .icon {
+  font-size: 18px !important;
+}
+
+/* ---------- Fenêtre ---------- */
+.window {
+  width: min(460px, 100%);
+  background: var(--face);
+  padding: 3px;
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--face),
+    inset -2px -2px var(--mid),
+    inset 2px 2px var(--light),
+    6px 6px 0 rgba(0, 0, 0, 0.35);
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 3px 2px 4px;
+  background: linear-gradient(90deg, var(--title-a), var(--title-b));
+  color: var(--light);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.title-bar {
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+.window.dragging {
+  /* fenêtre « soulevée » pendant le déplacement */
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--face),
+    inset -2px -2px var(--mid),
+    inset 2px 2px var(--light),
+    10px 10px 0 rgba(0, 0, 0, 0.45);
+  z-index: 10;
+}
+.window {
+  position: relative;
+}
+.title-text {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.title-buttons {
+  display: flex;
+  gap: 2px;
+}
+.tb-btn {
+  width: 18px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  background: var(--face);
+  color: var(--dark);
+  line-height: 1;
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--light),
+    inset -2px -2px var(--mid);
+}
+
+.menu-bar {
+  display: flex;
+  gap: 14px;
+  padding: 3px 6px;
+}
+
+/* ---------- Formulaire ---------- */
+.body {
+  padding: 6px 8px 8px;
+}
+
+.group {
+  margin: 0 0 10px;
+  padding: 8px 10px 6px;
+  border: none;
+  box-shadow:
+    inset -1px -1px var(--light),
+    inset 1px 1px var(--mid),
+    inset -2px -2px var(--mid),
+    inset 2px 2px var(--light);
+}
+.group legend {
+  padding: 0 4px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 2px;
+}
+
+input {
+  font: inherit;
+  width: 100%;
+  min-width: 0;
+  padding: 2px 5px;
+  background: var(--light);
+  color: var(--dark);
+  border: none;
+  border-radius: 0;
+  box-shadow:
+    inset -1px -1px var(--light),
+    inset 1px 1px var(--mid),
+    inset -2px -2px var(--face),
+    inset 2px 2px var(--dark);
+}
+input:focus {
+  outline: 1px dotted var(--dark);
+  outline-offset: 2px;
+}
+input.ng-invalid.ng-touched {
+  background: #fff4f4;
+}
+
+.error {
+  margin: 0 0 4px 138px;
+  color: var(--error);
+}
+
+/* ---------- Boutons ---------- */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.btn {
+  font: inherit;
+  min-width: 96px;
+  padding: 4px 10px;
+  background: var(--face);
+  color: var(--dark);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--light),
+    inset -2px -2px var(--mid),
+    inset 2px 2px var(--face);
+}
+.btn-default {
+  outline: 1px solid var(--dark);
+}
+.btn:active:not(:disabled) {
+  box-shadow:
+    inset -1px -1px var(--light),
+    inset 1px 1px var(--dark),
+    inset -2px -2px var(--face),
+    inset 2px 2px var(--mid);
+}
+.btn:active:not(:disabled) .btn-inner {
+  position: relative;
+  top: 1px;
+  left: 1px;
+}
+.btn:focus-visible .btn-inner {
+  outline: 1px dotted var(--dark);
+  outline-offset: 1px;
+}
+/* Texte gravé, façon bouton grisé Win95 */
+.btn:disabled {
+  cursor: not-allowed;
+  color: var(--mid);
+  text-shadow: 1px 1px 0 var(--light);
+}
+
+/* ---------- Barre d'état ---------- */
+.status-bar {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+.status-cell {
+  padding: 1px 6px;
+  box-shadow:
+    inset -1px -1px var(--light),
+    inset 1px 1px var(--mid);
+}
+.status-cell.grow {
+  flex: 1;
+}
+
+/* ---------- Boîte de message ---------- */
+.msgbox {
+  width: min(380px, 100%);
+}
+.msg-body {
+  display: flex;
+  gap: 14px;
+  padding: 14px 12px 8px;
+}
+.msg-body p {
+  margin: 0 0 6px;
+}
+.msg-body pre {
+  margin: 0;
+  font: inherit;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.msg-icon {
+  flex: none;
+  font-size: 36px !important;
+  color: var(--title-a);
+  text-shadow: 2px 2px 0 var(--mid);
+}
+.msgbox .actions {
+  justify-content: center;
+  padding: 0 0 8px;
+}
+
+@media (max-width: 420px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .error {
+    margin-left: 0;
+  }
+}
