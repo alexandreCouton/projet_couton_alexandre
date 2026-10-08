@@ -1,0 +1,11 @@
+main {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: center;
+  gap: 24px;
+  padding: 16px;
+}

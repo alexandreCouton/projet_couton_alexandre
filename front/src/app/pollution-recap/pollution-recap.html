@@ -1,0 +1,71 @@
+<div class="window" appDraggable role="dialog" aria-labelledby="recap-title">
+  <div class="title-bar">
+    <i class="pixelart-icons-font-clipboard-note icon" aria-hidden="true"></i>
+    <span id="recap-title" class="title-text">RECAP.TXT — Déclaration enregistrée</span>
+    <span class="title-buttons" aria-hidden="true">
+      <span class="tb-btn"><i class="pixelart-icons-font-minus icon" aria-hidden="true"></i></span><span class="tb-btn"><i class="pixelart-icons-font-square icon" aria-hidden="true"></i></span><span class="tb-btn"><i class="pixelart-icons-font-close icon" aria-hidden="true"></i></span>
+    </span>
+  </div>
+
+  <div class="body">
+    <div class="headline">
+      <i class="pixelart-icons-font-info-box icon msg-icon" aria-hidden="true"></i>
+      <div>
+        <h2 class="recap-title">{{ pollution.titre }}</h2>
+        <span class="badge">{{ pollution.type }}</span>
+      </div>
+    </div>
+
+    <div class="recap-grid">
+      <fieldset class="group">
+        <legend><i class="pixelart-icons-font-note icon" aria-hidden="true"></i> Signalement</legend>
+        <dl>
+          <dt>Type</dt>
+          <dd>{{ pollution.type }}</dd>
+          <dt>Observée le</dt>
+          <dd>{{ pollution.dateObservation | date: 'dd/MM/yyyy' }}</dd>
+          <dt>Description</dt>
+          <dd class="description">{{ pollution.description }}</dd>
+        </dl>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend><i class="pixelart-icons-font-map-pin icon" aria-hidden="true"></i> Localisation</legend>
+        <dl>
+          <dt>Lieu</dt>
+          <dd>{{ pollution.lieu }}</dd>
+          <dt>Latitude</dt>
+          <dd>{{ pollution.latitude | number: '1.0-6' }}</dd>
+          <dt>Longitude</dt>
+          <dd>{{ pollution.longitude | number: '1.0-6' }}</dd>
+        </dl>
+      </fieldset>
+    </div>
+
+    @if (pollution.photoUrl; as url) {
+      <fieldset class="group photo">
+        <legend><i class="pixelart-icons-font-image icon" aria-hidden="true"></i> Photo</legend>
+        @if (photoError()) {
+          <p class="error">
+            <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Impossible de charger l'image.
+          </p>
+        } @else {
+          <img [src]="url" [alt]="'Photo : ' + pollution.titre" (error)="photoError.set(true)" />
+        }
+      </fieldset>
+    }
+
+    <div class="actions">
+      <button type="button" class="btn btn-default" (click)="newDeclaration.emit()">
+        <span class="btn-inner">Nouvelle déclaration</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="status-cell grow">
+      <i class="pixelart-icons-font-check icon" aria-hidden="true"></i> Déclaration prête à être envoyée.
+    </span>
+    <span class="status-cell">OK</span>
+  </div>
+</div>
