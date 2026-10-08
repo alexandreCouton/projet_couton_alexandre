@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: min(540px, 100%);
+}
+.window {
+  width: 100%;
+}
+.row-top {
+  align-items: start;
+}
+.row-top label {
+  padding-top: 3px;
+}

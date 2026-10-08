@@ -1,0 +1,130 @@
+@if (declared(); as pollution) {
+  <app-pollution-recap [pollution]="pollution" (newDeclaration)="newDeclaration()" />
+} @else {
+  <div class="window" appDraggable role="dialog" aria-labelledby="pollution-title">
+    <div class="title-bar">
+      <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+      <span id="pollution-title" class="title-text">POLLUTION.EXE — Nouvelle déclaration</span>
+      <span class="title-buttons" aria-hidden="true">
+        <span class="tb-btn"><i class="pixelart-icons-font-minus icon" aria-hidden="true"></i></span><span class="tb-btn"><i class="pixelart-icons-font-square icon" aria-hidden="true"></i></span><span class="tb-btn"><i class="pixelart-icons-font-close icon" aria-hidden="true"></i></span>
+      </span>
+    </div>
+
+    <div class="menu-bar" aria-hidden="true">
+      <span><u>F</u>ichier</span><span><u>É</u>dition</span><span><u>A</u>ide</span>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="body">
+      <fieldset class="group">
+        <legend><i class="pixelart-icons-font-note icon" aria-hidden="true"></i> Signalement</legend>
+
+        <div class="row">
+          <label for="titre"><u>T</u>itre :</label>
+          <input id="titre" type="text" formControlName="titre" accesskey="t" />
+        </div>
+        @if (invalid('titre')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+            @if (form.controls.titre.hasError('maxlength')) { 100 caractères maximum. } @else { Le titre est requis. }
+          </p>
+        }
+
+        <div class="row">
+          <label for="type">T<u>y</u>pe :</label>
+          <select id="type" formControlName="type" accesskey="y">
+            <option value="" disabled>— Choisir —</option>
+            @for (t of types; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </div>
+        @if (invalid('type')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le type est requis.</p>
+        }
+
+        <div class="row row-top">
+          <label for="description"><u>D</u>escription :</label>
+          <textarea id="description" formControlName="description" rows="3" accesskey="d"></textarea>
+        </div>
+        @if (invalid('description')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> La description est requise.</p>
+        }
+
+        <div class="row">
+          <label for="dateObservation">D<u>a</u>te :</label>
+          <input id="dateObservation" type="date" formControlName="dateObservation" [max]="today" accesskey="a" />
+        </div>
+        @if (invalid('dateObservation')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+            @if (form.controls.dateObservation.hasError('required')) {
+              La date est requise.
+            } @else if (form.controls.dateObservation.hasError('futureDate')) {
+              La date ne peut pas être dans le futur.
+            } @else {
+              Date invalide.
+            }
+          </p>
+        }
+
+        <div class="row">
+          <label for="photoUrl"><u>P</u>hoto (URL) :</label>
+          <input id="photoUrl" type="url" formControlName="photoUrl" placeholder="https://… (facultatif)" accesskey="p" />
+        </div>
+        @if (invalid('photoUrl')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> L'URL doit commencer par http:// ou https://</p>
+        }
+      </fieldset>
+
+      <fieldset class="group">
+        <legend><i class="pixelart-icons-font-map icon" aria-hidden="true"></i> Localisation</legend>
+
+        <div class="row">
+          <label for="lieu"><u>L</u>ieu :</label>
+          <input id="lieu" type="text" formControlName="lieu" accesskey="l" />
+        </div>
+        @if (invalid('lieu')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le lieu est requis.</p>
+        }
+
+        <div class="row">
+          <label for="latitude">La<u>t</u>itude :</label>
+          <input id="latitude" type="number" formControlName="latitude" step="any" min="-90" max="90" placeholder="-90 à 90" />
+        </div>
+        @if (invalid('latitude')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+            @if (form.controls.latitude.hasError('required')) { La latitude est requise (nombre). } @else { Latitude entre -90 et 90. }
+          </p>
+        }
+
+        <div class="row">
+          <label for="longitude">L<u>o</u>ngitude :</label>
+          <input id="longitude" type="number" formControlName="longitude" step="any" min="-180" max="180" placeholder="-180 à 180" accesskey="o" />
+        </div>
+        @if (invalid('longitude')) {
+          <p class="error"><i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+            @if (form.controls.longitude.hasError('required')) { La longitude est requise (nombre). } @else { Longitude entre -180 et 180. }
+          </p>
+        }
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-default">
+          <span class="btn-inner">Déclarer</span>
+        </button>
+        <button type="button" class="btn" (click)="newDeclaration()">
+          <span class="btn-inner">Effacer</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="status-bar">
+      <span class="status-cell grow">
+        @if (form.invalid) {
+          <i class="pixelart-icons-font-pencil icon" aria-hidden="true"></i> Complétez les champs requis
+        } @else {
+          <i class="pixelart-icons-font-check icon" aria-hidden="true"></i> Prêt à déclarer.
+        }
+      </span>
+      <span class="status-cell">{{ form.valid ? 'VALIDE' : 'INVALIDE' }}</span>
+    </div>
+  </div>
+}
