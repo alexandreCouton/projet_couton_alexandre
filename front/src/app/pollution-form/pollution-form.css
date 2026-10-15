@@ -1,0 +1,7 @@
+:host {
+  display: block;
+  width: min(var(--window-width-wide), 100%);
+}
+app-window {
+  width: 100%;
+}

@@ -1,0 +1,6 @@
+:host {
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  width: min(var(--window-width), 100%);
+}
