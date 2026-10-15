@@ -11,7 +11,9 @@
     </div>
 
     <div class="menu-bar" aria-hidden="true">
-      <span><u>F</u>ichier</span><span><u>É</u>dition</span><span><u>A</u>ide</span>
+<button role="menuitem" accesskey="f"><span class="mnemonic">F</span>ichier</button>
+<button role="menuitem" accesskey="e"><span class="mnemonic">É</span>dition</button>
+<button role="menuitem" accesskey="a"><span class="mnemonic">A</span>ide</button>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="body">
