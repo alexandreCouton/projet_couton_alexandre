@@ -1,7 +1,10 @@
 :host {
   display: block;
+  --recap-title-size: 26px;
+  --recap-column-min: 220px;
+  --photo-max-height: var(--photo-max-height);
 }
-.window {
+app-window {
   width: 100%;
 }
 
@@ -13,7 +16,7 @@
 }
 .recap-title {
   margin: 0 0 4px;
-  font-size: 26px;
+  font-size: var(--recap-title-size);
   font-weight: normal;
   word-break: break-word;
 }
@@ -26,7 +29,7 @@
 
 .recap-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--recap-column-min), 1fr));
   gap: 0 10px;
 }
 
@@ -54,7 +57,7 @@ dd {
 .photo img {
   display: block;
   max-width: 100%;
-  max-height: 320px;
+  max-height: var(--photo-max-height);
   margin: 4px auto;
   box-shadow:
     inset -1px -1px var(--light),

@@ -7,24 +7,41 @@
   --title-a: #000080;
   --title-b: #1084d0;
   --error: #a00000;
+  --error-bg: #fff4f4;
+
+  /* Dimensions */
+  --window-width: 460px;
+  --window-width-wide: 540px;
+  --msgbox-width: 380px;
+  --label-width: 130px;
+  --row-gap: 8px;
+  --mobile-breakpoint: 420px; /* rappel : les media queries n'acceptent pas var() */
+
+  /* Tailles d'icônes */
+  --icon-size: 16px;
+  --icon-size-sm: 12px;
+  --icon-size-title: 18px;
+  --icon-size-xl: 36px;
 }
 
 /* ---------- Icônes (pixelarticons) ---------- */
-.icon {
-  font-size: 16px !important;
+/* `i.icon` est plus spécifique que [class^="pixelart-icons-font-"] (24px) : pas besoin de !important. */
+i.icon {
+  font-size: var(--icon-size);
   line-height: 1;
   vertical-align: -2px;
 }
-.tb-btn .icon {
-  font-size: 12px !important;
+.tb-btn i.icon {
+  font-size: var(--icon-size-sm);
 }
-.title-bar > .icon {
-  font-size: 18px !important;
+.title-bar > i.icon {
+  font-size: var(--icon-size-title);
 }
 
 /* ---------- Fenêtre ---------- */
 .window {
-  width: min(460px, 100%);
+  display: block;
+  width: min(var(--window-width), 100%);
   background: var(--face);
   padding: 3px;
   box-shadow:
@@ -114,9 +131,9 @@
 
 .row {
   display: grid;
-  grid-template-columns: 130px 1fr;
+  grid-template-columns: var(--label-width) 1fr;
   align-items: center;
-  gap: 8px;
+  gap: var(--row-gap);
   margin: 6px 0 2px;
 }
 
@@ -146,12 +163,20 @@ textarea:focus {
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
-  background: #fff4f4;
+  background: var(--error-bg);
 }
 
 .error {
-  margin: 0 0 4px 138px;
+  margin: 0 0 4px calc(var(--label-width) + var(--row-gap));
   color: var(--error);
+}
+
+/* Ligne alignée en haut (textarea) : le label reste en face de la 1re ligne. */
+.row.row-top {
+  align-items: start;
+}
+.row.row-top label {
+  padding-top: 3px;
 }
 
 /* ---------- Boutons ---------- */
@@ -221,7 +246,7 @@ textarea.ng-invalid.ng-touched {
 
 /* ---------- Boîte de message ---------- */
 .msgbox {
-  width: min(380px, 100%);
+  width: min(var(--msgbox-width), 100%);
 }
 .msg-body {
   display: flex;
@@ -237,9 +262,9 @@ textarea.ng-invalid.ng-touched {
   white-space: pre-wrap;
   word-break: break-all;
 }
-.msg-icon {
+i.msg-icon {
   flex: none;
-  font-size: 36px !important;
+  font-size: var(--icon-size-xl);
   color: var(--title-a);
   text-shadow: 2px 2px 0 var(--mid);
 }
@@ -269,7 +294,9 @@ select {
   cursor: pointer;
   /* flèche de liste déroulante façon Win95 */
   background:
-    linear-gradient(45deg, transparent 50%, var(--dark) 50%) calc(100% - 11px) 50% / 5px 5px no-repeat,
-    linear-gradient(-45deg, transparent 50%, var(--dark) 50%) calc(100% - 7px) 50% / 5px 5px no-repeat,
+    linear-gradient(45deg, transparent 50%, var(--dark) 50%) calc(100% - 11px) 50% / 5px 5px
+      no-repeat,
+    linear-gradient(-45deg, transparent 50%, var(--dark) 50%) calc(100% - 7px) 50% / 5px 5px
+      no-repeat,
     var(--light);
 }

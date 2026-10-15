@@ -1,13 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { POLLUTION_TYPES, Pollution, PollutionType } from '../models/pollution.model';
-import { DraggableDirective } from '../shared/draggable.directive';
 import { PollutionRecap } from '../pollution-recap/pollution-recap';
+import { AppWindow } from '../shared/app-window/app-window';
 import { numberValidator, pastDateValidator } from './pollution.validators';
+
+type PollutionField = keyof PollutionForm['form']['controls'];
 
 @Component({
   selector: 'app-pollution-form',
-  imports: [ReactiveFormsModule, DraggableDirective, PollutionRecap],
+  imports: [ReactiveFormsModule, AppWindow, PollutionRecap],
   templateUrl: './pollution-form.html',
   styleUrl: './pollution-form.css',
 })
@@ -42,8 +44,8 @@ export class PollutionForm {
   protected readonly declared = signal<Pollution | null>(null);
 
   /** Vrai si le champ doit afficher son erreur (invalide et déjà visité). */
-  protected invalid(name: string): boolean {
-    const control = this.form.get(name)!;
+  protected invalid(name: PollutionField): boolean {
+    const control = this.form.controls[name];
     return control.invalid && control.touched;
   }
 
@@ -65,7 +67,8 @@ export class PollutionForm {
     });
   }
 
-  protected newDeclaration(): void {
+  /** Vide le formulaire et ferme le récapitulatif. */
+  protected reset(): void {
     this.form.reset();
     this.declared.set(null);
   }

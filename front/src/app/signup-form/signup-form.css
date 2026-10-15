@@ -2,5 +2,5 @@
   display: grid;
   justify-items: center;
   gap: 24px;
-  width: min(460px, 100%);
+  width: min(var(--window-width), 100%);
 }

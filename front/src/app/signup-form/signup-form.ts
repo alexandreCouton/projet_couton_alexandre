@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AppWindow } from '../shared/app-window/app-window';
 import { DraggableDirective } from '../shared/draggable.directive';
 import { PasswordMatchDirective } from './password-match.directive';
 
@@ -14,7 +15,7 @@ export interface SignupModel {
 
 @Component({
   selector: 'app-signup-form',
-  imports: [FormsModule, PasswordMatchDirective, DraggableDirective],
+  imports: [FormsModule, PasswordMatchDirective, AppWindow, DraggableDirective],
   templateUrl: './signup-form.html',
   styleUrl: './signup-form.css',
 })
@@ -33,8 +34,7 @@ export class SignupForm {
   );
 
   protected onSubmit(form: NgForm): void {
-    // Double verrou : le bouton est désactivé, mais on refuse aussi
-    // une soumission forcée (touche Entrée, DOM modifié...).
+    // Comme le formulaire de pollution : on laisse soumettre et on affiche les erreurs.
     if (form.invalid) {
       form.control.markAllAsTouched();
       return;

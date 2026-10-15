@@ -1,0 +1,23 @@
+<div class="title-bar">
+  @if (icon(); as icon) {
+    <i class="pixelart-icons-font-{{ icon }} icon" aria-hidden="true"></i>
+  }
+  <span [id]="titleId" class="title-text">{{ heading() }}</span>
+  <span class="title-buttons" aria-hidden="true">
+    <span class="tb-btn"><i class="pixelart-icons-font-minus icon" aria-hidden="true"></i></span
+    ><span class="tb-btn"><i class="pixelart-icons-font-square icon" aria-hidden="true"></i></span
+    ><span class="tb-btn"><i class="pixelart-icons-font-close icon" aria-hidden="true"></i></span>
+  </span>
+</div>
+
+@if (menu()) {
+  <div class="menu-bar" aria-hidden="true">
+    <span><u>F</u>ichier</span><span><u>É</u>dition</span><span><u>A</u>ide</span>
+  </div>
+}
+
+<ng-content />
+
+<div class="status-bar">
+  <ng-content select="[status]" />
+</div>
