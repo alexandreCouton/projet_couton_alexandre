@@ -151,9 +151,15 @@
       }
     </fieldset>
 
+    @if (errorMessage(); as message) {
+      <p class="error" role="alert">
+        <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> {{ message }}
+      </p>
+    }
+
     <div class="actions">
-      <button type="submit" class="btn btn-default">
-        <span class="btn-inner">OK</span>
+      <button type="submit" class="btn btn-default" [disabled]="loading()">
+        <span class="btn-inner">{{ loading() ? 'Envoi…' : 'OK' }}</span>
       </button>
       <button type="button" class="btn" (click)="reset(signupForm)">
         <span class="btn-inner">Annuler</span>
@@ -162,7 +168,9 @@
   </form>
 
   <span status class="status-cell grow">
-    @if (signupForm.invalid) {
+    @if (loading()) {
+      <i class="pixelart-icons-font-clock icon" aria-hidden="true"></i> Envoi au serveur…
+    } @else if (signupForm.invalid) {
       <i class="pixelart-icons-font-pencil icon" aria-hidden="true"></i> Complétez les champs requis
     } @else {
       <i class="pixelart-icons-font-check icon" aria-hidden="true"></i> Prêt.
@@ -171,7 +179,7 @@
   <span status class="status-cell">{{ signupForm.valid ? 'VALIDE' : 'INVALIDE' }}</span>
 </app-window>
 
-@if (submitted(); as user) {
+@if (createdUser(); as user) {
   <div class="window msgbox" appDraggable role="alertdialog" aria-labelledby="msg-title">
     <div class="title-bar">
       <span id="msg-title" class="title-text">Inscription</span>
@@ -181,6 +189,7 @@
       <div>
         <p>Compte créé avec succès !</p>
         <pre>
+ID     : {{ user.id }}
 LOGIN  : {{ user.login }}
 NOM    : {{ user.lastName }}
 PRENOM : {{ user.firstName }}
