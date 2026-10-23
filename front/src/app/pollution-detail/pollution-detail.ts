@@ -1,6 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   Component,
+  computed,
   DestroyRef,
   inject,
   input,
@@ -34,8 +35,12 @@ export class PollutionDetail {
     stream: ({ params: id }) => this.pollutionService.getById(id),
   });
 
+  protected readonly current = computed(() =>
+    this.pollution.hasValue() ? this.pollution.value() : undefined,
+  );
+
   protected readonly photoError = linkedSignal({
-    source: this.pollution.value,
+    source: this.current,
     computation: () => false,
   });
 

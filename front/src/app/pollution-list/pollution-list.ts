@@ -35,6 +35,10 @@ export class PollutionList {
     defaultValue: [],
   });
 
+  protected readonly items = computed(() =>
+    this.pollutions.hasValue() ? this.pollutions.value() : [],
+  );
+
   // Critères de filtre
   protected readonly search = signal('');
   protected readonly type = signal<PollutionType | ''>('');
@@ -50,7 +54,7 @@ export class PollutionList {
     const type = this.type();
     const from = this.dateFrom();
     const to = this.dateTo();
-    return this.pollutions.value().filter((p) => {
+    return this.items().filter((p) => {
       const haystack = normalize(`${p.titre} ${p.lieu} ${p.description}`);
       return (
         words.every((w) => haystack.includes(w)) &&
