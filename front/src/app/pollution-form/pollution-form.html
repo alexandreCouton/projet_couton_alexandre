@@ -5,6 +5,7 @@
       : 'POLLUTION.EXE — Modifier la pollution n°' + id()
   "
   icon="warning-diamond"
+  [closeLink]="id() === undefined ? '/pollutions' : ['/pollutions', id()]"
 >
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="body">
     <fieldset class="group">

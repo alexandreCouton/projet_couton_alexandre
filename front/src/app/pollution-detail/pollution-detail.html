@@ -2,6 +2,7 @@
   [heading]="'DETAIL.TXT — ' + (pollution.value()?.titre ?? 'Pollution n°' + id())"
   icon="clipboard-note"
   [menu]="false"
+  closeLink="/pollutions"
 >
   <div class="body">
     @if (pollution.isLoading()) {
