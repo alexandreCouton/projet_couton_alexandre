@@ -1,4 +1,26 @@
 <main>
-  <app-signup-form />
-  <app-pollution-form />
+  <router-outlet />
 </main>
+
+<nav class="taskbar" aria-label="Navigation principale">
+  <a
+    class="btn task"
+    routerLink="/pollutions"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <span class="btn-inner"
+      ><i class="pixelart-icons-font-list icon" aria-hidden="true"></i> Pollutions</span
+    >
+  </a>
+  <a class="btn task" routerLink="/pollutions/new" routerLinkActive="active">
+    <span class="btn-inner"
+      ><i class="pixelart-icons-font-plus icon" aria-hidden="true"></i> Déclarer</span
+    >
+  </a>
+  <a class="btn task" routerLink="/signup" routerLinkActive="active">
+    <span class="btn-inner"
+      ><i class="pixelart-icons-font-user-plus icon" aria-hidden="true"></i> Inscription</span
+    >
+  </a>
+</nav>

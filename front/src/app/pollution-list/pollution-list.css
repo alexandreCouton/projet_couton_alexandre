@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  width: min(var(--window-width-wide), 100%);
+}
+app-window {
+  width: 100%;
+}
+
+/* Zone blanche enfoncée, façon explorateur Win95 */
+.list-view {
+  margin: 0 0 8px;
+  max-height: 340px;
+  overflow: auto;
+  background: var(--light);
+  box-shadow:
+    inset -1px -1px var(--light),
+    inset 1px 1px var(--mid),
+    inset -2px -2px var(--face),
+    inset 2px 2px var(--dark);
+  padding: 2px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  font-weight: normal;
+  padding: 1px 6px;
+  background: var(--face);
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--light);
+}
+td {
+  padding: 2px 6px;
+  vertical-align: middle;
+  word-break: break-word;
+}
+tbody tr:hover {
+  background: var(--title-a);
+  color: var(--light);
+}
+tbody tr:hover a {
+  color: var(--light);
+}
+a {
+  color: var(--title-a);
+}
+.nowrap {
+  white-space: nowrap;
+}
+.row-actions {
+  width: 1%;
+  text-align: right;
+  white-space: nowrap;
+}
+tbody tr:hover .btn {
+  color: var(--dark);
+}
+.btn-icon {
+  min-width: 0;
+  padding: 2px 6px;
+}
+a.btn {
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+.placeholder {
+  margin: 0;
+  padding: 10px 6px;
+  text-align: center;
+  color: var(--mid);
+}
+.error-text {
+  color: var(--error);
+}
+.list-error {
+  margin-left: 0;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 420px) {
+  .col-lieu {
+    display: none;
+  }
+}

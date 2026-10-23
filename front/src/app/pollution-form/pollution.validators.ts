@@ -10,7 +10,9 @@ export const numberValidator: ValidatorFn = (control: AbstractControl): Validati
 };
 
 /** Vérifie que la date (AAAA-MM-JJ) existe réellement et n'est pas dans le futur. */
-export const pastDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+export const pastDateValidator: ValidatorFn = (
+  control: AbstractControl,
+): ValidationErrors | null => {
   const value: string = control.value;
   if (!value) {
     return null;

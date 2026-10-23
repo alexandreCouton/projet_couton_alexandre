@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { PollutionForm } from './pollution-form/pollution-form';
-import { SignupForm } from './signup-form/signup-form';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [SignupForm, PollutionForm],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
