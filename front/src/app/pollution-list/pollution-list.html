@@ -1,0 +1,135 @@
+<app-window heading="POLLUTIONS.EXE — Pollutions déclarées" icon="list">
+  <div class="body">
+    <fieldset class="group">
+      <legend><i class="pixelart-icons-font-filter icon" aria-hidden="true"></i> Filtres</legend>
+
+      <div class="row">
+        <label for="search"><u>R</u>echerche :</label>
+        <input
+          id="search"
+          type="search"
+          [(ngModel)]="search"
+          placeholder="Titre, lieu, description…"
+          accesskey="r"
+        />
+      </div>
+      <div class="row">
+        <label for="filter-type">T<u>y</u>pe :</label>
+        <select id="filter-type" [(ngModel)]="type" accesskey="y">
+          <option value="">— Tous —</option>
+          @for (t of types; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      </div>
+      <div class="row">
+        <label for="date-from"><u>D</u>u :</label>
+        <input id="date-from" type="date" [(ngModel)]="dateFrom" [max]="dateTo()" accesskey="d" />
+      </div>
+      <div class="row">
+        <label for="date-to"><u>A</u>u :</label>
+        <input id="date-to" type="date" [(ngModel)]="dateTo" [min]="dateFrom()" accesskey="a" />
+      </div>
+      <div class="actions">
+        <button type="button" class="btn" [disabled]="!hasFilters()" (click)="resetFilters()">
+          <span class="btn-inner">Réinitialiser</span>
+        </button>
+      </div>
+    </fieldset>
+
+    @if (errorMessage(); as message) {
+      <p class="error list-error" role="alert">
+        <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> {{ message }}
+      </p>
+    }
+
+    <div class="list-view" aria-live="polite">
+      @if (pollutions.isLoading()) {
+        <p class="placeholder">
+          <i class="pixelart-icons-font-clock icon" aria-hidden="true"></i> Chargement…
+        </p>
+      } @else if (pollutions.error()) {
+        <p class="placeholder error-text" role="alert">
+          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+          {{ loadError() }}
+        </p>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Titre</th>
+              <th scope="col">Type</th>
+              <th scope="col">Date</th>
+              <th scope="col" class="col-lieu">Lieu</th>
+              <th scope="col"><span class="visually-hidden">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of filtered(); track p.id) {
+              <tr>
+                <td>
+                  <a [routerLink]="['/pollutions', p.id]">{{ p.titre }}</a>
+                </td>
+                <td>{{ p.type }}</td>
+                <td class="nowrap">{{ p.dateObservation | date: 'dd/MM/yyyy' }}</td>
+                <td class="col-lieu">{{ p.lieu }}</td>
+                <td class="row-actions">
+                  <button
+                    type="button"
+                    class="btn btn-icon"
+                    (click)="toDelete.set(p)"
+                    [attr.aria-label]="'Supprimer ' + p.titre"
+                    title="Supprimer"
+                  >
+                    <span class="btn-inner"
+                      ><i class="pixelart-icons-font-trash icon" aria-hidden="true"></i
+                    ></span>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="placeholder">
+                  {{
+                    hasFilters()
+                      ? 'Aucune pollution ne correspond aux filtres.'
+                      : 'Aucune pollution déclarée.'
+                  }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="btn"
+        [disabled]="pollutions.isLoading()"
+        (click)="pollutions.reload()"
+      >
+        <span class="btn-inner">Actualiser</span>
+      </button>
+      <a class="btn btn-default" routerLink="/pollutions/new">
+        <span class="btn-inner">Déclarer…</span>
+      </a>
+    </div>
+  </div>
+
+  <span status class="status-cell grow">
+    {{ filtered().length }} objet(s) affiché(s) sur {{ items().length }}
+  </span>
+  <span status class="status-cell">{{ hasFilters() ? 'FILTRÉ' : 'TOUT' }}</span>
+</app-window>
+
+@if (toDelete(); as pollution) {
+  <app-confirm-box
+    heading="Supprimer la pollution"
+    [message]="'Voulez-vous vraiment supprimer « ' + pollution.titre + ' » ?'"
+    [busy]="deleting()"
+    (confirmed)="confirmDelete()"
+    (cancelled)="toDelete.set(null)"
+  />
+}
