@@ -36,24 +36,22 @@ services:
   # -------------------------------------------------------------
   # Application Frontend Angular (Site Statique)
   # -------------------------------------------------------------
-  - type: web
-    name: pollution-front
-    runtime: static
-    rootDir: front/pollution
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist/pollution/browser
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    envVars:
-      - key: NODE_VERSION
-        value: 22.22.3
-      - key: API_HOST
-        fromService:
-          type: web
-          name: pollution-api
-          property: host
-
-
+  # - type: web
+  #  name: pollution-front
+  # runtime: static
+  #rootDir: front/pollution
+  #buildCommand: npm install && npm run build
+#    staticPublishPath: dist/pollution/browser
+#   routes:
+#    - type: rewrite
+#     source: /*
+#    destination: /index.html
+#envVars:
+# - key: NODE_VERSION
+#  value: 22.22.3
+#- key: API_HOST
+#  fromService:
+#    type: web
+#   name: pollution-api
+#  property: host
 
