@@ -10,6 +10,11 @@ export default (app: Application): void => {
   // Route GET /api/pollutions/:id
   router.get("/:id", pollutionController.getById);
 
+  // Routes utilisées par le formulaire du front
+  router.post("/", pollutionController.create);
+  router.put("/:id", pollutionController.update);
+  router.delete("/:id", pollutionController.remove);
+
   // Exposition sous /api/pollutions et /api/pollution (singulier et pluriel)
   app.use("/api/pollutions", router);
   app.use("/api/pollution", router);

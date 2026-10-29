@@ -1,16 +1,20 @@
 import { Sequelize, DataTypes, Model, Optional, ModelStatic } from "sequelize";
 
+// Champs alignés sur front/src/app/models/pollution.model.ts
 export interface PollutionAttributes {
   id: number;
-  ville: string;
-  valeur: number;
-  polluant: string;
-  date: string;
-  description?: string | null;
+  titre: string;
+  type: string;
+  description: string;
+  dateObservation: string;
+  lieu: string;
+  latitude: number;
+  longitude: number;
+  photoUrl: string | null;
 }
 
 export interface PollutionCreationAttributes
-  extends Optional<PollutionAttributes, "id" | "description"> {}
+  extends Optional<PollutionAttributes, "id" | "photoUrl"> {}
 
 export interface PollutionInstance
   extends Model<PollutionAttributes, PollutionCreationAttributes>,
@@ -31,23 +35,35 @@ export default function definePollutions(
         primaryKey: true,
         allowNull: false
       },
-      ville: {
+      titre: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      valeur: {
-        type: DataTypes.FLOAT,
-        allowNull: false
-      },
-      polluant: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      date: {
+      type: {
         type: DataTypes.STRING,
         allowNull: false
       },
       description: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      dateObservation: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+      },
+      lieu: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      latitude: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+      },
+      longitude: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+      },
+      photoUrl: {
         type: DataTypes.STRING,
         allowNull: true
       }
@@ -61,4 +77,3 @@ export default function definePollutions(
 
   return Pollutions;
 }
-

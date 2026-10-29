@@ -37,13 +37,10 @@ db.sequelize
       const count = await db.pollutions.count();
       if (count === 0) {
         await db.pollutions.bulkCreate([
-          { ville: "Paris", polluant: "PM2.5", valeur: 28.5, date: "2026-10-18", description: "Qualité de l'air dégradée au centre-ville" },
-          { ville: "Lyon", polluant: "NO2", valeur: 42.1, date: "2026-10-18", description: "Pic de pollution lié au trafic routier" },
-          { ville: "Marseille", polluant: "O3", valeur: 55.0, date: "2026-10-17", description: "Ozone élevé en zone côtière ensoleillée" },
-          { ville: "Strasbourg", polluant: "PM10", valeur: 34.2, date: "2026-10-18", description: "Particules en suspension modérées" },
-          { ville: "Bordeaux", polluant: "PM2.5", valeur: 15.3, date: "2026-10-16", description: "Bonne qualité globale de l'air" },
-          { ville: "Lille", polluant: "NO2", valeur: 38.7, date: "2026-10-17", description: "Trafic dense aux abords de la rocade" },
-          { ville: "Nantes", polluant: "CO2", valeur: 12.0, date: "2026-10-18", description: "Conditions atmosphériques favorables" }
+          { titre: "Bouteilles sur la plage", type: "Plastique", description: "Une cinquantaine de bouteilles échouées après la tempête.", dateObservation: "2026-09-12", lieu: "Plage du Prado, Marseille", latitude: 43.2593, longitude: 5.3752, photoUrl: null },
+          { titre: "Fût abandonné", type: "Chimique", description: "Fût métallique rouillé qui fuit, odeur de solvant.", dateObservation: "2026-10-02", lieu: "Zone industrielle, Lyon", latitude: 45.7215, longitude: 4.8542, photoUrl: null },
+          { titre: "Gravats en forêt", type: "Dépôt sauvage", description: "Tas de gravats et de plaques de plâtre au bord du chemin.", dateObservation: "2026-08-27", lieu: "Forêt de Fontainebleau", latitude: 48.4047, longitude: 2.7016, photoUrl: null },
+          { titre: "Mousse sur la rivière", type: "Eau", description: "Mousse blanche persistante en aval du déversoir.", dateObservation: "2026-10-15", lieu: "La Garonne, Toulouse", latitude: 43.6045, longitude: 1.4442, photoUrl: null }
         ]);
         console.log("Jeu de données initial pour la table pollution inséré avec succès.");
       }
