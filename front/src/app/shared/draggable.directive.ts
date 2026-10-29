@@ -18,6 +18,7 @@ import { Directive, ElementRef, inject, input, signal } from '@angular/core';
 })
 export class DraggableDirective {
   readonly dragHandle = input('.title-bar');
+  readonly enabled = signal(true);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   protected readonly offset = signal({ x: 0, y: 0 });
@@ -26,7 +27,12 @@ export class DraggableDirective {
 
   protected onPointerDown(event: PointerEvent): void {
     const target = event.target as HTMLElement;
-    if (event.button !== 0 || !target.closest(this.dragHandle())) {
+    if (
+      !this.enabled() ||
+      event.button !== 0 ||
+      !target.closest(this.dragHandle()) ||
+      target.closest('button')
+    ) {
       return;
     }
     event.preventDefault();
@@ -58,6 +64,12 @@ export class DraggableDirective {
       return;
     }
     this.host.releasePointerCapture(event.pointerId);
+    this.dragging.set(false);
+  }
+
+  /** Replace l'élément à sa position d'origine. */
+  reset(): void {
+    this.offset.set({ x: 0, y: 0 });
     this.dragging.set(false);
   }
 }

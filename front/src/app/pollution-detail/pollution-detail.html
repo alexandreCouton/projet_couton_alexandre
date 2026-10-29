@@ -1,0 +1,114 @@
+<app-window
+  [heading]="'DETAIL.TXT — ' + (current()?.titre ?? 'Pollution n°' + id())"
+  icon="clipboard-note"
+  [menu]="false"
+  closeLink="/pollutions"
+>
+  <div class="body">
+    @if (pollution.isLoading()) {
+      <p class="placeholder">
+        <i class="pixelart-icons-font-clock icon" aria-hidden="true"></i> Chargement…
+      </p>
+    } @else if (pollution.error()) {
+      <p class="error placeholder" role="alert">
+        <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+        {{ loadError() }}
+      </p>
+    } @else if (current(); as p) {
+      <div class="headline">
+        <i class="pixelart-icons-font-info-box icon msg-icon" aria-hidden="true"></i>
+        <div>
+          <h2 class="recap-title">{{ p.titre }}</h2>
+          <span class="badge">{{ p.type }}</span>
+        </div>
+      </div>
+
+      <div class="recap-grid">
+        <fieldset class="group">
+          <legend>
+            <i class="pixelart-icons-font-note icon" aria-hidden="true"></i> Signalement
+          </legend>
+          <dl>
+            <dt>N°</dt>
+            <dd>{{ p.id }}</dd>
+            <dt>Type</dt>
+            <dd>{{ p.type }}</dd>
+            <dt>Observée le</dt>
+            <dd>{{ p.dateObservation | date: 'dd/MM/yyyy' }}</dd>
+            <dt>Description</dt>
+            <dd class="description">{{ p.description }}</dd>
+          </dl>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>
+            <i class="pixelart-icons-font-map-pin icon" aria-hidden="true"></i> Localisation
+          </legend>
+          <dl>
+            <dt>Lieu</dt>
+            <dd>{{ p.lieu }}</dd>
+            <dt>Latitude</dt>
+            <dd>{{ p.latitude | number: '1.0-6' }}</dd>
+            <dt>Longitude</dt>
+            <dd>{{ p.longitude | number: '1.0-6' }}</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      @if (p.photoUrl; as url) {
+        <fieldset class="group photo">
+          <legend><i class="pixelart-icons-font-image icon" aria-hidden="true"></i> Photo</legend>
+          @if (photoError()) {
+            <p class="error">
+              <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+              Impossible de charger l'image.
+            </p>
+          } @else {
+            <img [src]="url" [alt]="'Photo : ' + p.titre" (error)="photoError.set(true)" />
+          }
+        </fieldset>
+      }
+    }
+
+    @if (errorMessage(); as message) {
+      <p class="error action-error" role="alert">
+        <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> {{ message }}
+      </p>
+    }
+
+    <div class="actions">
+      <a class="btn" routerLink="/pollutions">
+        <span class="btn-inner">&lt; Retour</span>
+      </a>
+      @if (pollution.hasValue()) {
+        <button type="button" class="btn" (click)="confirming.set(true)">
+          <span class="btn-inner">Supprimer</span>
+        </button>
+        <a class="btn btn-default" [routerLink]="['/pollutions', id(), 'edit']">
+          <span class="btn-inner">Modifier…</span>
+        </a>
+      }
+    </div>
+  </div>
+
+  <span status class="status-cell grow">
+    @if (pollution.isLoading()) {
+      <i class="pixelart-icons-font-clock icon" aria-hidden="true"></i> Chargement…
+    } @else if (pollution.error()) {
+      <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Erreur.
+    } @else {
+      <i class="pixelart-icons-font-check icon" aria-hidden="true"></i> Pollution n°{{ id() }}
+    }
+  </span>
+  <span status class="status-cell">{{ pollution.status() === 'error' ? 'ERREUR' : 'OK' }}</span>
+</app-window>
+
+@if (confirming()) {
+  <app-confirm-box
+    heading="Supprimer la pollution"
+    [message]="'Voulez-vous vraiment supprimer « ' + (current()?.titre ?? '') + ' » ?'"
+    [busy]="deleting()"
+    (confirmed)="confirmDelete()"
+    (cancelled)="confirming.set(false)"
+  />
+}

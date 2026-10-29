@@ -2,7 +2,8 @@
   display: block;
   --recap-title-size: 26px;
   --recap-column-min: 220px;
-  --photo-max-height: var(--photo-max-height);
+  --photo-max-height: 260px;
+  width: min(var(--window-width-wide), 100%);
 }
 app-window {
   width: 100%;
@@ -66,6 +67,20 @@ dd {
 }
 .photo .error {
   margin: 4px 0;
+}
+
+.placeholder {
+  margin: 0;
+  padding: 16px 6px;
+  text-align: center;
+}
+.action-error {
+  margin-left: 0;
+}
+a.btn {
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
 @media (max-width: 420px) {

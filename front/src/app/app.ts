@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
-import { PollutionForm } from './pollution-form/pollution-form';
-import { SignupForm } from './signup-form/signup-form';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { WindowManager } from './shared/window-manager.service';
 
 @Component({
-  imports: [SignupForm, PollutionForm],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {}
+export class App {
+  protected readonly windowManager = inject(WindowManager);
+}

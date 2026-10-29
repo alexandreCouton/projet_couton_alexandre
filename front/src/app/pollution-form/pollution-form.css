@@ -5,3 +5,11 @@
 app-window {
   width: 100%;
 }
+.action-error {
+  margin-left: 0;
+}
+a.btn {
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}

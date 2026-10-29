@@ -1,12 +1,32 @@
-<div class="title-bar">
+<div class="title-bar" (dblclick)="toggleMaximize()">
   @if (icon(); as icon) {
     <i class="pixelart-icons-font-{{ icon }} icon" aria-hidden="true"></i>
   }
   <span [id]="titleId" class="title-text">{{ heading() }}</span>
-  <span class="title-buttons" aria-hidden="true">
-    <span class="tb-btn"><i class="pixelart-icons-font-minus icon" aria-hidden="true"></i></span
-    ><span class="tb-btn"><i class="pixelart-icons-font-square icon" aria-hidden="true"></i></span
-    ><span class="tb-btn"><i class="pixelart-icons-font-close icon" aria-hidden="true"></i></span>
+  <span class="title-buttons">
+    <button type="button" class="tb-btn" (click)="minimize()" aria-label="Réduire" title="Réduire">
+      <i class="pixelart-icons-font-minus icon" aria-hidden="true"></i></button
+    ><button
+      type="button"
+      class="tb-btn"
+      (click)="toggleMaximize()"
+      [attr.aria-label]="maximized() ? 'Restaurer' : 'Agrandir'"
+      [title]="maximized() ? 'Restaurer' : 'Agrandir'"
+    >
+      <i
+        class="pixelart-icons-font-{{ maximized() ? 'copy' : 'square' }} icon"
+        aria-hidden="true"
+      ></i></button
+    ><button
+      type="button"
+      class="tb-btn tb-close"
+      (click)="close()"
+      [disabled]="!closeLink()"
+      aria-label="Fermer"
+      title="Fermer"
+    >
+      <i class="pixelart-icons-font-close icon" aria-hidden="true"></i>
+    </button>
   </span>
 </div>
 

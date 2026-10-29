@@ -1,0 +1,24 @@
+<div class="overlay" (click)="busy() || cancelled.emit()"></div>
+<div
+  class="window msgbox"
+  appDraggable
+  role="alertdialog"
+  [attr.aria-labelledby]="titleId"
+  (keydown.escape)="busy() || cancelled.emit()"
+>
+  <div class="title-bar">
+    <span [id]="titleId" class="title-text">{{ heading() }}</span>
+  </div>
+  <div class="msg-body">
+    <i class="pixelart-icons-font-warning-diamond icon msg-icon" aria-hidden="true"></i>
+    <p>{{ message() }}</p>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn btn-default" [disabled]="busy()" (click)="confirmed.emit()">
+      <span class="btn-inner">{{ busy() ? 'Patientez…' : 'Oui' }}</span>
+    </button>
+    <button type="button" class="btn" [disabled]="busy()" (click)="cancelled.emit()" autofocus>
+      <span class="btn-inner">Non</span>
+    </button>
+  </div>
+</div>

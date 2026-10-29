@@ -15,6 +15,7 @@
   --msgbox-width: 380px;
   --label-width: 130px;
   --row-gap: 8px;
+  --taskbar-height: 40px;
   --mobile-breakpoint: 420px; /* rappel : les media queries n'acceptent pas var() */
 
   /* Tailles d'icônes */
@@ -95,13 +96,61 @@ i.icon {
   height: 16px;
   display: grid;
   place-items: center;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font: inherit;
   background: var(--face);
   color: var(--dark);
   line-height: 1;
+  cursor: pointer;
   box-shadow:
     inset -1px -1px var(--dark),
     inset 1px 1px var(--light),
     inset -2px -2px var(--mid);
+}
+.tb-close {
+  margin-left: 2px;
+}
+.tb-btn:active:not(:disabled) {
+  box-shadow:
+    inset -1px -1px var(--light),
+    inset 1px 1px var(--dark),
+    inset -2px -2px var(--face),
+    inset 2px 2px var(--mid);
+}
+.tb-btn:focus-visible {
+  outline: 1px dotted var(--light);
+  outline-offset: 1px;
+}
+.tb-btn:disabled {
+  cursor: default;
+  color: var(--mid);
+  text-shadow: 1px 1px 0 var(--light);
+}
+
+/* Réduite : la fenêtre n'apparaît plus que dans la barre des tâches. */
+.window.minimized {
+  display: none;
+}
+/* Agrandie : plein écran au-dessus de la barre des tâches. */
+.window.maximized {
+  position: fixed;
+  inset: 0 0 var(--taskbar-height);
+  z-index: 40;
+  width: auto;
+  overflow: auto;
+  box-shadow:
+    inset -1px -1px var(--dark),
+    inset 1px 1px var(--face),
+    inset -2px -2px var(--mid),
+    inset 2px 2px var(--light);
+}
+.window.maximized .title-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  cursor: default;
 }
 
 .menu-bar {
