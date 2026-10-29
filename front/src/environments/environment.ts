@@ -1,6 +1,5 @@
-
 export const environment = {
   production: true,
-  apiUrl: '/api',
-  mockApi: true,
+  apiUrl: 'https://pollution-api-fi4c.onrender.com/api',
+  mockApi: false,
 };
