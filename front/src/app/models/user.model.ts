@@ -6,6 +6,11 @@ export interface SignupRequest {
   email: string;
 }
 
+export interface LoginRequest {
+  login: string;
+  password: string;
+}
+
 export interface User {
   id: number;
   login: string;

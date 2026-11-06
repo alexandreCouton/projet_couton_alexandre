@@ -1,15 +1,9 @@
 import { Request, Response } from "express";
 import db from "../models";
 import { PollutionCreationAttributes } from "../models/pollutions.model";
+import { errorMessage, parseId } from "./helpers";
 
 const Pollutions = db.pollutions;
-
-const parseId = (req: Request): number => {
-  const paramId = req.params.id;
-  return Array.isArray(paramId) ? Number(paramId[0]) : Number(paramId);
-};
-
-const errorMessage = (err: unknown): string => (err instanceof Error ? err.message : String(err));
 
 /**
  * Ne garde que les champs connus du modèle (l'id vient de l'URL ou de la base).

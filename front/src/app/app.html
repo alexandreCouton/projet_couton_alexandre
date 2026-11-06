@@ -23,6 +23,26 @@
       ><i class="pixelart-icons-font-user-plus icon" aria-hidden="true"></i> Inscription</span
     >
   </a>
+  <a class="btn task" routerLink="/users" routerLinkActive="active">
+    <span class="btn-inner"
+      ><i class="pixelart-icons-font-users icon" aria-hidden="true"></i> Utilisateurs</span
+    >
+  </a>
+  @if (userService.currentUser(); as user) {
+    <button type="button" class="btn task" (click)="userService.logout()">
+      <span class="btn-inner"
+        ><i class="pixelart-icons-font-logout icon" aria-hidden="true"></i> Déconnexion ({{
+          user.login
+        }})</span
+      >
+    </button>
+  } @else {
+    <a class="btn task" routerLink="/login" routerLinkActive="active">
+      <span class="btn-inner"
+        ><i class="pixelart-icons-font-login icon" aria-hidden="true"></i> Connexion</span
+      >
+    </a>
+  }
 
   @if (windowManager.minimized().length) {
     <span class="separator" aria-hidden="true"></span>

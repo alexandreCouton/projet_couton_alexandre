@@ -1,6 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-export function describeHttpError(err: unknown, action: string): string {
+export function describeHttpError(
+  err: unknown,
+  action: string,
+  notFoundMessage = 'Pollution introuvable (elle a peut-être été supprimée).',
+): string {
   if (!(err instanceof HttpErrorResponse)) {
     return `Erreur inattendue : ${action} a échoué.`;
   }
@@ -8,7 +12,7 @@ export function describeHttpError(err: unknown, action: string): string {
     return 'Serveur injoignable. Vérifiez votre connexion.';
   }
   if (err.status === 404) {
-    return 'Pollution introuvable (elle a peut-être été supprimée).';
+    return notFoundMessage;
   }
   return `Erreur ${err.status} : ${action} a échoué.`;
 }
