@@ -1,0 +1,82 @@
+<app-window heading="USERS.EXE — Utilisateurs" icon="users">
+  <div class="body">
+    @if (errorMessage(); as message) {
+      <p class="error list-error" role="alert">
+        <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> {{ message }}
+      </p>
+    }
+
+    <div class="list-view" aria-live="polite">
+      @if (users.isLoading()) {
+        <p class="placeholder">
+          <i class="pixelart-icons-font-clock icon" aria-hidden="true"></i> Chargement…
+        </p>
+      } @else if (users.error()) {
+        <p class="placeholder error-text" role="alert">
+          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+          {{ loadError() }}
+        </p>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Login</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Prénom</th>
+              <th scope="col" class="col-lieu">Email</th>
+              <th scope="col"><span class="visually-hidden">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of items(); track u.id) {
+              <tr>
+                <td>{{ u.login }}</td>
+                <td>{{ u.lastName }}</td>
+                <td>{{ u.firstName }}</td>
+                <td class="col-lieu">{{ u.email }}</td>
+                <td class="row-actions">
+                  <button
+                    type="button"
+                    class="btn btn-icon"
+                    (click)="toDelete.set(u)"
+                    [attr.aria-label]="'Supprimer ' + u.login"
+                    title="Supprimer"
+                  >
+                    <span class="btn-inner"
+                      ><i class="pixelart-icons-font-trash icon" aria-hidden="true"></i
+                    ></span>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="placeholder">Aucun utilisateur inscrit.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn" [disabled]="users.isLoading()" (click)="users.reload()">
+        <span class="btn-inner">Actualiser</span>
+      </button>
+      <a class="btn btn-default" routerLink="/signup">
+        <span class="btn-inner">Inscrire…</span>
+      </a>
+    </div>
+  </div>
+
+  <span status class="status-cell grow">{{ items().length }} utilisateur(s)</span>
+</app-window>
+
+@if (toDelete(); as user) {
+  <app-confirm-box
+    heading="Supprimer l'utilisateur"
+    [message]="'Voulez-vous vraiment supprimer « ' + user.login + ' » ?'"
+    [busy]="deleting()"
+    (confirmed)="confirmDelete()"
+    (cancelled)="toDelete.set(null)"
+  />
+}

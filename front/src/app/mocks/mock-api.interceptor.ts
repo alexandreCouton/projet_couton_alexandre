@@ -8,7 +8,7 @@ import { mergeMap, Observable, of, throwError, timer } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Pollution } from '../models/pollution.model';
-import { SignupRequest, User } from '../models/user.model';
+import { LoginRequest, SignupRequest, User } from '../models/user.model';
 
 const LATENCY_MS = 600;
 
@@ -75,8 +75,20 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   }
   const path = req.url.slice(environment.apiUrl.length);
 
-  if (req.method === 'POST' && path === '/users') {
-    return signup(req as HttpRequest<SignupRequest>);
+  if (path === '/users') {
+    if (req.method === 'GET') {
+      return ok(req, users);
+    }
+    if (req.method === 'POST') {
+      return signup(req as HttpRequest<SignupRequest>);
+    }
+  }
+  if (req.method === 'POST' && path === '/users/login') {
+    return login(req as HttpRequest<LoginRequest>);
+  }
+  const userMatch = /^\/users\/(\d+)$/.exec(path);
+  if (req.method === 'DELETE' && userMatch) {
+    return deleteUser(req, Number(userMatch[1]));
   }
   if (path === '/pollutions') {
     if (req.method === 'GET') {
@@ -115,6 +127,21 @@ function signup(req: HttpRequest<SignupRequest>): Observable<HttpResponse<User>>
   users.push(user);
 
   return of(new HttpResponse({ status: 201, url: req.url, body: user })).pipe(delay(LATENCY_MS));
+}
+
+/** Le mock ne conserve pas les mots de passe : seul le login est vérifié. */
+function login(req: HttpRequest<LoginRequest>): Observable<HttpResponse<User>> {
+  const user = users.find((u) => u.login === req.body?.login);
+  return user ? ok(req, user) : error(req, 401, 'Login ou mot de passe incorrect.');
+}
+
+function deleteUser(req: HttpRequest<unknown>, id: number): Observable<HttpResponse<null>> {
+  const index = users.findIndex((u) => u.id === id);
+  if (index === -1) {
+    return error(req, 404, `Utilisateur ${id} introuvable.`);
+  }
+  users.splice(index, 1);
+  return ok(req, null, 204);
 }
 
 function getPollution(req: HttpRequest<unknown>, id: number): Observable<HttpResponse<Pollution>> {
