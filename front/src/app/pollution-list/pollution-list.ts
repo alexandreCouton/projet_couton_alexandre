@@ -10,7 +10,6 @@ import { AppWindow } from '../shared/app-window/app-window';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
 import { describeHttpError } from '../shared/http-error';
 
-/** Minuscules sans accents, pour une recherche tolérante. */
 function normalize(text: string): string {
   return text
     .normalize('NFD')
@@ -59,14 +58,12 @@ export class PollutionList {
       return (
         words.every((w) => haystack.includes(w)) &&
         (!type || p.type === type) &&
-        // dates ISO AAAA-MM-JJ : la comparaison de chaînes suffit
         (!from || p.dateObservation >= from) &&
         (!to || p.dateObservation <= to)
       );
     });
   });
 
-  /** Pollution en attente de confirmation de suppression. */
   protected readonly toDelete = signal<Pollution | null>(null);
   protected readonly deleting = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
