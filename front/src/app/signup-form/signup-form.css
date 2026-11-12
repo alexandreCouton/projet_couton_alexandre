@@ -4,3 +4,8 @@
   gap: 24px;
   width: min(var(--window-width), 100%);
 }
+
+/* Message d'information (ex. redirection vers la connexion par le guard). */
+.notice {
+  margin: 0 0 8px;
+}

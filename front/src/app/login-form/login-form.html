@@ -1,5 +1,11 @@
 <app-window heading="LOGIN.EXE — Connexion" icon="login" closeLink="/pollutions">
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate class="body">
+    @if (returnUrl()) {
+      <p class="notice" role="status">
+        <i class="pixelart-icons-font-info-box icon" aria-hidden="true"></i> Connectez-vous pour
+        accéder à cette page.
+      </p>
+    }
     <fieldset class="group">
       <legend>
         <i class="pixelart-icons-font-login icon" aria-hidden="true"></i> Identifiants

@@ -29,7 +29,7 @@
     >
   </a>
   @if (userService.currentUser(); as user) {
-    <button type="button" class="btn task" (click)="userService.logout()">
+    <button type="button" class="btn task" (click)="logout()">
       <span class="btn-inner"
         ><i class="pixelart-icons-font-logout icon" aria-hidden="true"></i> Déconnexion ({{
           user.login

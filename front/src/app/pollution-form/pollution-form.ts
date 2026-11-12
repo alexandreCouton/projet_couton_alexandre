@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
@@ -22,6 +23,7 @@ import { numberValidator, pastDateValidator } from './pollution.validators';
 type PollutionField = keyof PollutionForm['form']['controls'];
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-pollution-form',
   imports: [
     ReactiveFormsModule,

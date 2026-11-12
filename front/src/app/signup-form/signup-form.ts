@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -19,6 +19,7 @@ export interface SignupModel {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-signup-form',
   imports: [FormsModule, PasswordMatchDirective, AppWindow, DraggableDirective],
   templateUrl: './signup-form.html',

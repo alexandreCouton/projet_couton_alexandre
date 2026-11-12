@@ -78,17 +78,19 @@
                 </td>
                 <td class="col-lieu">{{ p.lieu }}</td>
                 <td class="row-actions">
-                  <button
-                    type="button"
-                    class="btn btn-icon"
-                    (click)="toDelete.set(p)"
-                    [attr.aria-label]="'Supprimer ' + p.titre"
-                    title="Supprimer"
-                  >
-                    <span class="btn-inner"
-                      ><i class="pixelart-icons-font-trash icon" aria-hidden="true"></i
-                    ></span>
-                  </button>
+                  @if (canDelete()) {
+                    <button
+                      type="button"
+                      class="btn btn-icon"
+                      (click)="toDelete.set(p)"
+                      [attr.aria-label]="'Supprimer ' + p.titre"
+                      title="Supprimer"
+                    >
+                      <span class="btn-inner"
+                        ><i class="pixelart-icons-font-trash icon" aria-hidden="true"></i
+                      ></span>
+                    </button>
+                  }
                 </td>
               </tr>
             } @empty {
@@ -128,7 +130,7 @@
   <span status class="status-cell">{{ hasFilters() ? 'FILTRÉ' : 'TOUT' }}</span>
 </app-window>
 
-@if (toDelete(); as pollution) {
+@if (canDelete() && toDelete(); as pollution) {
   <app-confirm-box
     heading="Supprimer la pollution"
     [message]="'Voulez-vous vraiment supprimer « ' + pollution.titre + ' » ?'"
