@@ -7,8 +7,10 @@ import { finalize } from 'rxjs';
 import { POLLUTION_TYPES, Pollution, PollutionType } from '../models/pollution.model';
 import { PollutionService } from '../services/pollution.service';
 import { AppWindow } from '../shared/app-window/app-window';
+import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
 import { describeHttpError } from '../shared/http-error';
+import { PollutionLevelPipe } from '../shared/pollution-level.pipe';
 
 function normalize(text: string): string {
   return text
@@ -19,7 +21,15 @@ function normalize(text: string): string {
 
 @Component({
   selector: 'app-pollution-list',
-  imports: [FormsModule, RouterLink, DatePipe, AppWindow, ConfirmBox],
+  imports: [
+    FormsModule,
+    RouterLink,
+    DatePipe,
+    AppWindow,
+    ConfirmBox,
+    PollutionLevelPipe,
+    HighlightPollutionDirective,
+  ],
   templateUrl: './pollution-list.html',
   styleUrl: './pollution-list.css',
 })

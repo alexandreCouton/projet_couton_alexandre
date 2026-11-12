@@ -60,6 +60,7 @@
               <th scope="col">Titre</th>
               <th scope="col">Type</th>
               <th scope="col">Date</th>
+              <th scope="col">Niveau</th>
               <th scope="col" class="col-lieu">Lieu</th>
               <th scope="col"><span class="visually-hidden">Actions</span></th>
             </tr>
@@ -72,6 +73,9 @@
                 </td>
                 <td>{{ p.type }}</td>
                 <td class="nowrap">{{ p.dateObservation | date: 'dd/MM/yyyy' }}</td>
+                <td class="nowrap level" [appHighlightPollution]="p.indiceDangerosite">
+                  {{ p.indiceDangerosite | pollutionLevel }}
+                </td>
                 <td class="col-lieu">{{ p.lieu }}</td>
                 <td class="row-actions">
                   <button
@@ -89,7 +93,7 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="5" class="placeholder">
+                <td colspan="6" class="placeholder">
                   {{
                     hasFilters()
                       ? 'Aucune pollution ne correspond aux filtres.'

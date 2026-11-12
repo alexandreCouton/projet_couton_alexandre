@@ -14,14 +14,22 @@ import { finalize } from 'rxjs';
 import { POLLUTION_TYPES, Pollution, PollutionType } from '../models/pollution.model';
 import { PollutionService } from '../services/pollution.service';
 import { AppWindow } from '../shared/app-window/app-window';
+import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { describeHttpError } from '../shared/http-error';
+import { PollutionLevelPipe } from '../shared/pollution-level.pipe';
 import { numberValidator, pastDateValidator } from './pollution.validators';
 
 type PollutionField = keyof PollutionForm['form']['controls'];
 
 @Component({
   selector: 'app-pollution-form',
-  imports: [ReactiveFormsModule, RouterLink, AppWindow],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    AppWindow,
+    PollutionLevelPipe,
+    HighlightPollutionDirective,
+  ],
   templateUrl: './pollution-form.html',
   styleUrl: './pollution-form.css',
 })
@@ -58,6 +66,12 @@ export class PollutionForm implements OnInit {
       Validators.max(180),
     ]),
     photoUrl: ['', Validators.pattern(/^https?:\/\/\S+$/i)],
+    indiceDangerosite: this.fb.control<number | null>(null, [
+      Validators.required,
+      numberValidator,
+      Validators.min(0),
+      Validators.pattern(/^\d+$/),
+    ]),
   });
 
   protected readonly loading = signal(false);
@@ -110,6 +124,7 @@ export class PollutionForm implements OnInit {
       latitude: value.latitude!,
       longitude: value.longitude!,
       photoUrl: value.photoUrl.trim() || null,
+      indiceDangerosite: value.indiceDangerosite!,
     };
     const id = this.id();
     const request =

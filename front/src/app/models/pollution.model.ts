@@ -24,4 +24,5 @@ export interface Pollution {
   latitude: number;
   longitude: number;
   photoUrl: string | null;
+  indiceDangerosite: number;
 }

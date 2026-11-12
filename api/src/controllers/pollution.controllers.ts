@@ -16,7 +16,8 @@ const pickBody = (body: Record<string, unknown>): PollutionCreationAttributes =>
   lieu: body.lieu as string,
   latitude: Number(body.latitude),
   longitude: Number(body.longitude),
-  photoUrl: (body.photoUrl as string | null | undefined) ?? null
+  photoUrl: (body.photoUrl as string | null | undefined) ?? null,
+  indiceDangerosite: Number(body.indiceDangerosite)
 });
 
 /**

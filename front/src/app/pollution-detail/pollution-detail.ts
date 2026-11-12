@@ -14,12 +14,22 @@ import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PollutionService } from '../services/pollution.service';
 import { AppWindow } from '../shared/app-window/app-window';
+import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
 import { describeHttpError } from '../shared/http-error';
+import { PollutionLevelPipe } from '../shared/pollution-level.pipe';
 
 @Component({
   selector: 'app-pollution-detail',
-  imports: [DatePipe, DecimalPipe, RouterLink, AppWindow, ConfirmBox],
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    RouterLink,
+    AppWindow,
+    ConfirmBox,
+    PollutionLevelPipe,
+    HighlightPollutionDirective,
+  ],
   templateUrl: './pollution-detail.html',
   styleUrl: './pollution-detail.css',
 })

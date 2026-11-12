@@ -91,3 +91,11 @@ a.btn {
     content: '';
   }
 }
+
+/* Pastille de niveau : fond posé par appHighlightPollution. */
+.level {
+  display: inline-block;
+  padding: 0 8px;
+  color: var(--dark);
+  white-space: nowrap;
+}

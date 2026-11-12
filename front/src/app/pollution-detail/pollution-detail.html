@@ -35,6 +35,13 @@
             <dd>{{ p.type }}</dd>
             <dt>Observée le</dt>
             <dd>{{ p.dateObservation | date: 'dd/MM/yyyy' }}</dd>
+            <dt>Dangerosité</dt>
+            <dd>
+              <span class="level" [appHighlightPollution]="p.indiceDangerosite">
+                {{ p.indiceDangerosite | pollutionLevel }}
+              </span>
+              (indice {{ p.indiceDangerosite }})
+            </dd>
             <dt>Description</dt>
             <dd class="description">{{ p.description }}</dd>
           </dl>

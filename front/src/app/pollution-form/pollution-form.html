@@ -76,6 +76,34 @@
         </p>
       }
 
+      <div class="row row-level">
+        <label for="indiceDangerosite">Dan<u>g</u>erosité :</label>
+        <input
+          id="indiceDangerosite"
+          type="number"
+          formControlName="indiceDangerosite"
+          min="0"
+          step="1"
+          placeholder="Indice ≥ 0"
+          accesskey="g"
+        />
+        @if (form.controls.indiceDangerosite.valid) {
+          <span class="level" [appHighlightPollution]="form.controls.indiceDangerosite.value">
+            {{ form.controls.indiceDangerosite.value | pollutionLevel }}
+          </span>
+        }
+      </div>
+      @if (invalid('indiceDangerosite')) {
+        <p class="error">
+          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i>
+          @if (form.controls.indiceDangerosite.hasError('required')) {
+            L'indice de dangerosité est requis (nombre).
+          } @else {
+            L'indice doit être un entier positif ou nul.
+          }
+        </p>
+      }
+
       <div class="row">
         <label for="photoUrl"><u>P</u>hoto (URL) :</label>
         <input

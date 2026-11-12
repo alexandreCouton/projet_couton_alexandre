@@ -28,6 +28,7 @@ const pollutions: Pollution[] = [
     latitude: 43.2593,
     longitude: 5.3752,
     photoUrl: null,
+    indiceDangerosite: 15,
   },
   {
     id: 2,
@@ -39,6 +40,7 @@ const pollutions: Pollution[] = [
     latitude: 45.7215,
     longitude: 4.8542,
     photoUrl: null,
+    indiceDangerosite: 120,
   },
   {
     id: 3,
@@ -50,6 +52,7 @@ const pollutions: Pollution[] = [
     latitude: 48.4047,
     longitude: 2.7016,
     photoUrl: null,
+    indiceDangerosite: 45,
   },
   {
     id: 4,
@@ -61,6 +64,7 @@ const pollutions: Pollution[] = [
     latitude: 43.6045,
     longitude: 1.4442,
     photoUrl: null,
+    indiceDangerosite: 70,
   },
 ];
 let nextPollutionId = 5;
@@ -190,7 +194,9 @@ function isValidPollution(body: Pollution | null): body is Pollution {
     !!body.dateObservation &&
     !!body.lieu &&
     Number.isFinite(body.latitude) &&
-    Number.isFinite(body.longitude)
+    Number.isFinite(body.longitude) &&
+    Number.isInteger(body.indiceDangerosite) &&
+    body.indiceDangerosite >= 0
   );
 }
 

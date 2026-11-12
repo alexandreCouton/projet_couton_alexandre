@@ -52,6 +52,10 @@ a {
 .nowrap {
   white-space: nowrap;
 }
+/* Fond coloré par la directive : texte noir, même sur la ligne survolée. */
+.level {
+  color: var(--dark);
+}
 .row-actions {
   width: 1%;
   text-align: right;

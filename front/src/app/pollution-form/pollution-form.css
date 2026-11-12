@@ -13,3 +13,15 @@ a.btn {
   display: inline-block;
   text-align: center;
 }
+
+/* Pastille de niveau : fond posé par appHighlightPollution. */
+.level {
+  display: inline-block;
+  padding: 0 8px;
+  color: var(--dark);
+  white-space: nowrap;
+}
+/* Troisième colonne pour la pastille à droite du champ. */
+.row-level {
+  grid-template-columns: var(--label-width) 1fr auto;
+}
