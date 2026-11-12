@@ -1,0 +1,69 @@
+<app-window heading="LOGIN.EXE — Connexion" icon="login" closeLink="/pollutions">
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate class="body">
+    <fieldset class="group">
+      <legend>
+        <i class="pixelart-icons-font-login icon" aria-hidden="true"></i> Identifiants
+      </legend>
+
+      <div class="row">
+        <label for="login"><u>L</u>ogin :</label>
+        <input
+          id="login"
+          name="login"
+          type="text"
+          [(ngModel)]="model.login"
+          #login="ngModel"
+          required
+          autocomplete="username"
+          accesskey="l"
+        />
+      </div>
+      @if (login.invalid && login.touched) {
+        <p class="error">
+          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le login est
+          requis.
+        </p>
+      }
+
+      <div class="row">
+        <label for="password"><u>M</u>ot de passe :</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          [(ngModel)]="model.password"
+          #password="ngModel"
+          required
+          autocomplete="current-password"
+          accesskey="m"
+        />
+      </div>
+      @if (password.invalid && password.touched) {
+        <p class="error">
+          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> Le mot de
+          passe est requis.
+        </p>
+      }
+    </fieldset>
+
+    @if (errorMessage(); as message) {
+      <p class="error" role="alert">
+        <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> {{ message }}
+      </p>
+    }
+
+    <div class="actions">
+      <button type="submit" class="btn btn-default" [disabled]="loading()">
+        <span class="btn-inner">{{ loading() ? 'Connexion…' : 'OK' }}</span>
+      </button>
+    </div>
+  </form>
+
+  <span status class="status-cell grow">
+    @if (loading()) {
+      <i class="pixelart-icons-font-clock icon" aria-hidden="true"></i> Envoi au serveur…
+    } @else {
+      <i class="pixelart-icons-font-pencil icon" aria-hidden="true"></i> Saisissez vos identifiants
+    }
+  </span>
+</app-window>
