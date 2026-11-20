@@ -67,9 +67,13 @@ export default function definePollutions(
         type: DataTypes.DOUBLE,
         allowNull: false,
       },
+      // URL http(s) ou image encodée en base64 (data URL) : TEXT car bien plus long qu'un VARCHAR(255).
       photoUrl: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
+        validate: {
+          is: /^(https?:\/\/\S+|data:image\/(png|jpeg|gif|webp);base64,[A-Za-z0-9+/=]+)$/,
+        },
       },
       indiceDangerosite: {
         type: DataTypes.INTEGER,

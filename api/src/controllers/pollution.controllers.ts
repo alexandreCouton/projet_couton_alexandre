@@ -25,7 +25,9 @@ const pickBody = (body: Record<string, unknown>): PollutionCreationAttributes =>
  */
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
   try {
+    // La photo (potentiellement lourde en base64) n'est renvoyée que par getById.
     const data = await Pollutions.findAll({
+      attributes: { exclude: ["photoUrl"] },
       order: [["id", "ASC"]]
     });
     res.status(200).json(data);

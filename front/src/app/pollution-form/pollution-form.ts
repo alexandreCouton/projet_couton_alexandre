@@ -22,6 +22,10 @@ import { numberValidator, pastDateValidator } from './pollution.validators';
 
 type PollutionField = keyof PollutionForm['form']['controls'];
 
+/** Formats acceptés pour une photo envoyée depuis l'appareil (stockée en base64). */
+const PHOTO_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+const PHOTO_MAX_BYTES = 1024 * 1024; // 1 Mo
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-pollution-form',
@@ -76,6 +80,11 @@ export class PollutionForm implements OnInit {
     ]),
   });
 
+  /** Photo choisie sur l'appareil, encodée en base64 (data URL). Prioritaire sur l'URL saisie. */
+  protected readonly photoData = signal<string | null>(null);
+  protected readonly photoError = signal<string | null>(null);
+  protected readonly photoTypes = PHOTO_TYPES.join(',');
+
   protected readonly loading = signal(false);
   protected readonly saving = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
@@ -125,7 +134,7 @@ export class PollutionForm implements OnInit {
       lieu: value.lieu.trim(),
       latitude: value.latitude!,
       longitude: value.longitude!,
-      photoUrl: value.photoUrl.trim() || null,
+      photoUrl: this.photoData() ?? (value.photoUrl.trim() || null),
       indiceDangerosite: value.indiceDangerosite!,
     };
     const id = this.id();
@@ -152,8 +161,43 @@ export class PollutionForm implements OnInit {
     this.form.reset();
     if (this.original) {
       const { id, photoUrl, ...values } = this.original;
-      this.form.patchValue({ ...values, photoUrl: photoUrl ?? '' });
+      const embedded = photoUrl?.startsWith('data:') ?? false;
+      this.form.patchValue({ ...values, photoUrl: embedded ? '' : (photoUrl ?? '') });
+      this.photoData.set(embedded ? photoUrl : null);
+    } else {
+      this.photoData.set(null);
     }
+    this.photoError.set(null);
     this.errorMessage.set(null);
+  }
+
+  /** Lit le fichier image choisi et le convertit en base64 pour l'enregistrer en base. */
+  protected onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+    if (!PHOTO_TYPES.includes(file.type)) {
+      this.photoError.set('Format non pris en charge (PNG, JPEG, GIF ou WebP).');
+    } else if (file.size > PHOTO_MAX_BYTES) {
+      this.photoError.set('Image trop lourde (1 Mo maximum).');
+    } else {
+      this.photoError.set(null);
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.photoData.set(reader.result as string);
+        this.form.controls.photoUrl.reset();
+      };
+      reader.onerror = () => this.photoError.set("Impossible de lire l'image.");
+      reader.readAsDataURL(file);
+      return;
+    }
+    input.value = '';
+  }
+
+  protected removePhoto(): void {
+    this.photoData.set(null);
+    this.photoError.set(null);
   }
 }
