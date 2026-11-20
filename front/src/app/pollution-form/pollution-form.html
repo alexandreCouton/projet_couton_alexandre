@@ -104,20 +104,48 @@
         </p>
       }
 
-      <div class="row">
-        <label for="photoUrl"><u>P</u>hoto (URL) :</label>
-        <input
-          id="photoUrl"
-          type="url"
-          formControlName="photoUrl"
-          placeholder="https://… (facultatif)"
-          accesskey="p"
-        />
-      </div>
-      @if (invalid('photoUrl')) {
-        <p class="error">
-          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> L'URL doit
-          commencer par http:// ou https://
+      @if (photoData(); as data) {
+        <div class="row row-top">
+          <span>Photo :</span>
+          <div class="photo-preview">
+            <img [src]="data" alt="Aperçu de la photo" />
+            <button type="button" class="btn" (click)="removePhoto()">
+              <span class="btn-inner">Retirer</span>
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="row">
+          <label for="photoUrl"><u>P</u>hoto (URL) :</label>
+          <input
+            id="photoUrl"
+            type="url"
+            formControlName="photoUrl"
+            placeholder="https://… (facultatif)"
+            accesskey="p"
+          />
+        </div>
+        @if (invalid('photoUrl')) {
+          <p class="error">
+            <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> L'URL doit
+            commencer par http:// ou https://
+          </p>
+        }
+
+        <div class="row">
+          <label for="photoFile">ou fichier :</label>
+          <input
+            id="photoFile"
+            type="file"
+            [accept]="photoTypes"
+            [disabled]="loading() || saving()"
+            (change)="onPhotoSelected($event)"
+          />
+        </div>
+      }
+      @if (photoError(); as message) {
+        <p class="error" role="alert">
+          <i class="pixelart-icons-font-warning-diamond icon" aria-hidden="true"></i> {{ message }}
         </p>
       }
     </fieldset>

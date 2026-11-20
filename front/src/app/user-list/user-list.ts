@@ -1,4 +1,11 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+} from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -11,6 +18,7 @@ import { describeHttpError } from '../shared/http-error';
 const NOT_FOUND = 'Utilisateur introuvable (il a peut-être été supprimé).';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-list',
   imports: [RouterLink, AppWindow, ConfirmBox],
   templateUrl: './user-list.html',

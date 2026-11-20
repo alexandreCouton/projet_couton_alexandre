@@ -1,11 +1,19 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+} from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { POLLUTION_TYPES, Pollution, PollutionType } from '../models/pollution.model';
 import { PollutionService } from '../services/pollution.service';
+import { UserService } from '../services/user.service';
 import { AppWindow } from '../shared/app-window/app-window';
 import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
@@ -20,6 +28,7 @@ function normalize(text: string): string {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-pollution-list',
   imports: [
     FormsModule,
@@ -35,6 +44,9 @@ function normalize(text: string): string {
 })
 export class PollutionList {
   private readonly pollutionService = inject(PollutionService);
+  private readonly userService = inject(UserService);
+
+  protected readonly canDelete = computed(() => this.userService.currentUser() !== null);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly types = POLLUTION_TYPES;
@@ -91,7 +103,8 @@ export class PollutionList {
 
   protected confirmDelete(): void {
     const pollution = this.toDelete();
-    if (!pollution?.id) {
+    if (!pollution?.id || !this.canDelete()) {
+      this.toDelete.set(null);
       return;
     }
     this.deleting.set(true);

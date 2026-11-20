@@ -15,7 +15,8 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions))
 
 // parse requests of content-type - application/json
-app.use(express.json())
+// limite relevée : une photo peut être envoyée en base64 dans le JSON (1 Mo ≈ 1,4 Mo encodé)
+app.use(express.json({ limit: '2mb' }))
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
