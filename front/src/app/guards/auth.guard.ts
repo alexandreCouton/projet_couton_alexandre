@@ -1,14 +1,17 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { UserService } from '../services/user.service';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../store/auth/auth.state';
 
 /**
- * Réserve une route aux utilisateurs connectés.
+ * Réserve une route aux utilisateurs connectés (lu depuis le store NGXS).
  * Sinon, redirige vers la connexion en mémorisant la page demandée (`returnUrl`).
  */
 export const authGuard: CanActivateFn = (_route, state) => {
-  if (inject(UserService).currentUser()) {
+  const store = inject(Store);
+  const router = inject(Router);
+  if (store.selectSnapshot(AuthState.isAuthenticated)) {
     return true;
   }
-  return inject(Router).createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+  return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
 };

@@ -52,7 +52,7 @@ export class UserList {
     this.deleting.set(true);
     this.errorMessage.set(null);
     this.userService
-      .delete(user.id)
+      .delete(user)
       .pipe(
         finalize(() => {
           this.deleting.set(false);

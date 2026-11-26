@@ -10,10 +10,12 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { finalize } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { AppWindow } from '../shared/app-window/app-window';
 import { describeHttpError } from '../shared/http-error';
+import { Login } from '../store/auth/auth.actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +26,7 @@ import { describeHttpError } from '../shared/http-error';
 })
 export class LoginForm {
   private readonly userService = inject(UserService);
+  private readonly store = inject(Store);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -54,7 +57,11 @@ export class LoginForm {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: () => this.router.navigateByUrl(this.target()),
+        // Connexion réussie : on enregistre le profil dans le store NGXS.
+        next: (user) =>
+          this.store
+            .dispatch(new Login({ email: user.email, nom: `${user.firstName} ${user.lastName}` }))
+            .subscribe(() => this.router.navigateByUrl(this.target())),
         error: (err: HttpErrorResponse) =>
           this.errorMessage.set(
             err.status === 401

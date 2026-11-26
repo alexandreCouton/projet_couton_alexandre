@@ -14,7 +14,8 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PollutionService } from '../services/pollution.service';
-import { UserService } from '../services/user.service';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../store/auth/auth.state';
 import { AppWindow } from '../shared/app-window/app-window';
 import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
@@ -38,9 +39,9 @@ import { PollutionLevelPipe } from '../shared/pollution-level.pipe';
 })
 export class PollutionDetail {
   private readonly pollutionService = inject(PollutionService);
-  private readonly userService = inject(UserService);
+  private readonly store = inject(Store);
 
-  protected readonly canDelete = computed(() => this.userService.currentUser() !== null);
+  protected readonly canDelete = this.store.selectSignal(AuthState.isAuthenticated);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 

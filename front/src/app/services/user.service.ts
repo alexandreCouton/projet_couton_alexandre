@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, SignupRequest, User } from '../models/user.model';
+import { Logout } from '../store/auth/auth.actions';
+import { AuthState } from '../store/auth/auth.state';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private readonly http = inject(HttpClient);
+  private readonly store = inject(Store);
   private readonly baseUrl = `${environment.apiUrl}/users`;
-
-  /** Utilisateur connecté (authentification fictive : perdu au rechargement de la page). */
-  readonly currentUser = signal<User | null>(null);
 
   getAll(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
@@ -22,23 +23,18 @@ export class UserService {
       .pipe(map(({ password, ...user }) => user));
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
+  /** Supprime un utilisateur ; déconnecte la session si c'est l'utilisateur connecté. */
+  delete(user: User): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${user.id}`).pipe(
       tap(() => {
-        if (this.currentUser()?.id === id) {
-          this.logout();
+        if (this.store.selectSnapshot(AuthState.user)?.email === user.email) {
+          this.store.dispatch(new Logout());
         }
       }),
     );
   }
 
   login(request: LoginRequest): Observable<User> {
-    return this.http
-      .post<User>(`${this.baseUrl}/login`, request)
-      .pipe(tap((user) => this.currentUser.set(user)));
-  }
-
-  logout(): void {
-    this.currentUser.set(null);
+    return this.http.post<User>(`${this.baseUrl}/login`, request);
   }
 }

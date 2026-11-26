@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { UserService } from './services/user.service';
+import { Store } from '@ngxs/store';
+import { Logout } from './store/auth/auth.actions';
+import { AuthState } from './store/auth/auth.state';
 import { WindowManager } from './shared/window-manager.service';
 
 @Component({
@@ -12,11 +14,13 @@ import { WindowManager } from './shared/window-manager.service';
 })
 export class App {
   protected readonly windowManager = inject(WindowManager);
-  protected readonly userService = inject(UserService);
+  private readonly store = inject(Store);
   private readonly router = inject(Router);
 
+  protected readonly isAuthenticated = this.store.selectSignal(AuthState.isAuthenticated);
+  protected readonly username = this.store.selectSignal(AuthState.username);
+
   protected logout(): void {
-    this.userService.logout();
-    this.router.navigateByUrl('/pollutions');
+    this.store.dispatch(new Logout()).subscribe(() => this.router.navigateByUrl('/pollutions'));
   }
 }

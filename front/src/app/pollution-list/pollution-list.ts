@@ -13,7 +13,8 @@ import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { POLLUTION_TYPES, Pollution, PollutionType } from '../models/pollution.model';
 import { PollutionService } from '../services/pollution.service';
-import { UserService } from '../services/user.service';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../store/auth/auth.state';
 import { AppWindow } from '../shared/app-window/app-window';
 import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
@@ -44,9 +45,9 @@ function normalize(text: string): string {
 })
 export class PollutionList {
   private readonly pollutionService = inject(PollutionService);
-  private readonly userService = inject(UserService);
+  private readonly store = inject(Store);
 
-  protected readonly canDelete = computed(() => this.userService.currentUser() !== null);
+  protected readonly canDelete = this.store.selectSignal(AuthState.isAuthenticated);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly types = POLLUTION_TYPES;
