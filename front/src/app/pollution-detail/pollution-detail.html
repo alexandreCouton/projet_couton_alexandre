@@ -88,9 +88,11 @@
         <span class="btn-inner">&lt; Retour</span>
       </a>
       @if (pollution.hasValue()) {
-        <button type="button" class="btn" (click)="confirming.set(true)">
-          <span class="btn-inner">Supprimer</span>
-        </button>
+        @if (canDelete()) {
+          <button type="button" class="btn" (click)="confirming.set(true)">
+            <span class="btn-inner">Supprimer</span>
+          </button>
+        }
         <a class="btn btn-default" [routerLink]="['/pollutions', id(), 'edit']">
           <span class="btn-inner">Modifier…</span>
         </a>
@@ -110,7 +112,7 @@
   <span status class="status-cell">{{ pollution.status() === 'error' ? 'ERREUR' : 'OK' }}</span>
 </app-window>
 
-@if (confirming()) {
+@if (canDelete() && confirming()) {
   <app-confirm-box
     heading="Supprimer la pollution"
     [message]="'Voulez-vous vraiment supprimer « ' + (current()?.titre ?? '') + ' » ?'"

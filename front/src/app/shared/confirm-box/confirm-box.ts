@@ -1,9 +1,10 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { DraggableDirective } from '../draggable.directive';
 
 let nextId = 0;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-confirm-box',
   imports: [DraggableDirective],
   templateUrl: './confirm-box.html',

@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DraggableDirective } from '../draggable.directive';
 import { WindowManager } from '../window-manager.service';
@@ -12,6 +19,7 @@ let nextId = 0;
  * Les boutons de la barre de titre réduisent, agrandissent ou ferment la fenêtre.
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-window',
   hostDirectives: [DraggableDirective],
   host: {

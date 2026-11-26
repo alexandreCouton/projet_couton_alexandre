@@ -23,6 +23,7 @@ export interface Pollution {
   lieu: string;
   latitude: number;
   longitude: number;
+  /** URL http(s) ou image en base64 (data URL). Absente de la liste, fournie par le détail. */
   photoUrl: string | null;
   indiceDangerosite: number;
 }

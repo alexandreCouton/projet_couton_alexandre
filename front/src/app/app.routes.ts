@@ -1,19 +1,27 @@
 import { Routes } from '@angular/router';
-import { LoginForm } from './login-form/login-form';
-import { PollutionDetail } from './pollution-detail/pollution-detail';
-import { PollutionForm } from './pollution-form/pollution-form';
-import { PollutionList } from './pollution-list/pollution-list';
-import { SignupForm } from './signup-form/signup-form';
-import { UserList } from './user-list/user-list';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'pollutions' },
-  { path: 'pollutions', component: PollutionList, title: 'Pollutions' },
-  { path: 'pollutions/new', component: PollutionForm, title: 'Nouvelle pollution' },
-  { path: 'pollutions/:id', component: PollutionDetail, title: 'Détail pollution' },
-  { path: 'pollutions/:id/edit', component: PollutionForm, title: 'Modifier pollution' },
-  { path: 'users', component: UserList, title: 'Utilisateurs' },
-  { path: 'signup', component: SignupForm, title: 'Inscription' },
-  { path: 'login', component: LoginForm, title: 'Connexion' },
+  {
+    path: 'pollutions',
+    loadChildren: () => import('./pollution.routes').then((m) => m.POLLUTION_ROUTES),
+  },
+  {
+    path: 'users',
+    loadComponent: () => import('./user-list/user-list').then((m) => m.UserList),
+    title: 'Utilisateurs',
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./signup-form/signup-form').then((m) => m.SignupForm),
+    title: 'Inscription',
+  },
+  {
+    path: 'login',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./login-form/login-form').then((m) => m.LoginForm),
+    title: 'Connexion',
+  },
   { path: '**', redirectTo: 'pollutions' },
 ];

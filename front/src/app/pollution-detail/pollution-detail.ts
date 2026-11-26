@@ -1,5 +1,6 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
@@ -13,6 +14,7 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PollutionService } from '../services/pollution.service';
+import { UserService } from '../services/user.service';
 import { AppWindow } from '../shared/app-window/app-window';
 import { HighlightPollutionDirective } from '../shared/highlight-pollution.directive';
 import { ConfirmBox } from '../shared/confirm-box/confirm-box';
@@ -20,6 +22,7 @@ import { describeHttpError } from '../shared/http-error';
 import { PollutionLevelPipe } from '../shared/pollution-level.pipe';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-pollution-detail',
   imports: [
     DatePipe,
@@ -35,6 +38,9 @@ import { PollutionLevelPipe } from '../shared/pollution-level.pipe';
 })
 export class PollutionDetail {
   private readonly pollutionService = inject(PollutionService);
+  private readonly userService = inject(UserService);
+
+  protected readonly canDelete = computed(() => this.userService.currentUser() !== null);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -63,6 +69,10 @@ export class PollutionDetail {
   }
 
   protected confirmDelete(): void {
+    if (!this.canDelete()) {
+      this.confirming.set(false);
+      return;
+    }
     this.deleting.set(true);
     this.errorMessage.set(null);
     this.pollutionService
